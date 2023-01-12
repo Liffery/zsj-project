@@ -5,11 +5,12 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/',
         component: Home,
-        redirect: '/robot',
+        redirect: '/main',
         children: [
             {
-                path: 'robot',
-                component: async () => await import('/@/views/robot/index.vue'), // 懒加载组件
+                path: 'main',
+                component: async () =>
+                    await import('/@/views/main/views/test.vue'), // 懒加载组件
             },
         ],
     },

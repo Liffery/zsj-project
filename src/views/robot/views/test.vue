@@ -1,5 +1,5 @@
 <template>
-    <router-view></router-view>
+    <h1>robot-test</h1>
 </template>
 <script lang="ts" setup>
 import { onMounted } from 'vue';
