@@ -1,16 +1,16 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 // 如果编辑器提示 path 模块找不到，则可以安装一下 @types/node -> npm i @types/node -D
-import path from 'path';
+import path, { join } from 'path';
+import glob from 'glob';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
     return {
-        root: './src/views',
-        base: './',
+        root: 'src/views',
+        base: '/',
         // publicDir: VITE_APP_PUBLIC_DIR,
         plugins: [vue()],
-        // base: "./", // 设置打包路径
         resolve: {
             alias: [
                 {
@@ -22,11 +22,11 @@ export default defineConfig(({ command, mode }) => {
                     replacement: pathResolve('types') + '/',
                 },
                 {
-                    find: /\/main\//,
+                    find: /^\/main\//,
                     replacement: pathResolve('src/views/main') + '/',
                 },
                 {
-                    find: /\/robot\//,
+                    find: /^\/robot\//,
                     replacement: pathResolve('src/views/robot') + '/',
                 },
             ],
@@ -48,12 +48,9 @@ export default defineConfig(({ command, mode }) => {
             // }
         },
         build: {
-            outDir: '../dist',
+            outDir: pathResolve('build'),
             rollupOptions: {
-                input: {
-                    main: pathResolve('src/views/main/index.html'),
-                    robot: pathResolve('src/views/robot/index.html'),
-                },
+                input: getEntryPath(),
             },
         },
     };
@@ -61,3 +58,17 @@ export default defineConfig(({ command, mode }) => {
 function pathResolve(dir: string): string {
     return path.resolve(process.cwd(), '.', dir);
 }
+
+const getEntryPath = (): any => {
+    const pageEntry: any = {};
+    glob.sync('./src/views/**/index.html').forEach((entry: string) => {
+        const pathArr: string[] = entry.split('/');
+        const name: string = pathArr[pathArr.length - 2];
+        pageEntry[name] = join(process.cwd(), `/src/views/${name}/index.html`);
+    });
+    console.log(pageEntry, '1');
+    delete pageEntry.views;
+    delete pageEntry.index;
+    console.log(pageEntry);
+    return pageEntry;
+};
