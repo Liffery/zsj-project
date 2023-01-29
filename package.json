@@ -6,15 +6,17 @@
     "scripts": {
         "dev": "vite --mode development",
         "dev:main": "vite serve src/views/main/ --config ./vite.config.ts",
-        "dev:login": "vite serve src/views/login/ --config ./vite.config.ts",
+        "dev:robot": "vite serve src/views/robot/ --config ./vite.config.ts",
         "build:main": "vue-tsc --noEmit && vite build --mode main",
-        "build:login": "vue-tsc --noEmit && vite build --mode login",
+        "build:robot": "vue-tsc --noEmit && vite build --mode robot",
         "build": "vue-tsc && vite build",
         "preview": "vite preview",
         "prepare": "husky install"
     },
     "dependencies": {
+        "amfe-flexible": "^2.2.1",
         "pinia": "^2.0.28",
+        "postcss-pxtorem": "^5.1.1",
         "vue": "^3.2.45",
         "vue-router": "^4.1.6"
     },
